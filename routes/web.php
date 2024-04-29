@@ -39,6 +39,12 @@ $router->group(['prefix' => 'api/v1'], function () use ($router) {
         $router->post('/ulasan', ['middleware' => 'auth', 'uses' => 'UlasanController@store']);
         $router->get('/pinjam/{id}', ['middleware' => 'auth', 'uses' => 'PeminjamanController@getByUser']);
         $router->post('/pinjam', ['middleware' => 'auth', 'uses' => 'PeminjamanController@store']);
+
+
+        // baru=================== baru ===============================
+        $router->post('/pesan', ['middleware' => 'auth', 'uses' => 'PemesananController@store']);
+        $router->get('/pesan/{id}', ['middleware' => 'auth', 'uses' => 'PemesananController@getByUser']);
+        $router->delete('/pesan/{delete}', ['middleware' => 'auth', 'uses' => 'PemesananController@delete']);
     });
 
     $router->group(['prefix' => 'petugas'], function () use ($router) {
@@ -60,6 +66,11 @@ $router->group(['prefix' => 'api/v1'], function () use ($router) {
         $router->delete('/kategori/{id}', 'KategoriController@delete');
         $router->get('/pinjam', 'PeminjamanController@index');
         $router->post('/pinjam/{id}', 'PeminjamanController@update');
+
+        // baru=================== baru ===============================
+        // $router->post('/pinjam', ['middleware' => 'auth', 'uses' => 'PeminjamanController@store']);
+        // $router->get('/pesan/{id}', ['middleware' => 'auth', 'uses' => 'PemesananController@index']);
+        // $router->delete('/pinjam/{delete}', ['middleware' => 'auth', 'uses' => 'PeminjamanController@delete']);
         
     });
 
