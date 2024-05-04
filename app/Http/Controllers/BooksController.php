@@ -118,32 +118,44 @@ class BooksController extends CustomController
     }
 
     public function delete($id)
-    {
-        try {
-            // Cari buku berdasarkan ID
-            $book = Books::find($id);
+{
+    try {
+        // Cari buku berdasarkan ID
+        $book = Books::find($id);
 
-            // Jika buku tidak ditemukan, kembalikan respons dengan pesan tidak ditemukan
-            if (!$book) {
-                return $this->jsonNotFoundResponse('Book not found');
-            }
-
-            // Hapus gambar terkait jika ada
-            if ($book->image) {
-                // Hapus gambar dari penyimpanan
-                unlink($book->image);
-            }
-
-            // Hapus buku dari database
-            $book->delete();
-
-            // Kembalikan respons berhasil
-            return $this->jsonSuccessResponse('Book deleted successfully');
-        } catch (\Throwable $e) {
-            // Tangani kesalahan internal server
-            return $this->jsonErrorResponse('Internal server error: ' . $e->getMessage());
+        // Jika buku tidak ditemukan, kembalikan respons dengan pesan tidak ditemukan
+        if (!$book) {
+            return $this->jsonNotFoundResponse('Book not found');
         }
+
+        // Hapus gambar terkait jika ada
+        if ($book->image) {
+            // Hapus gambar dari penyimpanan
+            unlink($book->image);
+        }
+
+        // Hapus entri yang terkait dengan buku dari tabel koleksi
+
+        // Hapus entri yang terkait dengan buku dari tabel peminjaman
+        $book->peminjaman()->delete();
+        
+        $book->ulasan()->delete();
+
+        $book->koleksi()->delete();
+
+        $book->pemesanan()->delete();
+
+        // Hapus buku dari database
+        $book->delete();
+
+        // Kembalikan respons berhasil
+        return $this->jsonSuccessResponse('Book and related entries deleted successfully');
+    } catch (\Throwable $e) {
+        // Tangani kesalahan internal server
+        return $this->jsonErrorResponse('Internal server error: ' . $e->getMessage());
     }
+}
+
 
     public function update(Request $request, $id)
     {

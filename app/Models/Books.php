@@ -22,4 +22,24 @@ class Books extends Model{
     {
         return $this->belongsTo(Kategori::class, 'kategori_id');
     }
+
+    public function peminjaman()
+    {
+        return $this->hasMany(Peminjaman::class, 'book_id');
+    }
+
+    public function ulasan()
+    {
+        return $this->hasMany(Ulasan::class, 'book_id');
+    }
+
+    public function pemesanan()
+    {
+        return $this->hasMany(Pemesanan::class, 'book_id');
+    }
+
+    public function koleksi()
+    {
+        return $this->hasMany(Koleksi::class, 'book_id');
+    }
 }

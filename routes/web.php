@@ -57,7 +57,7 @@ $router->group(['prefix' => 'api/v1'], function () use ($router) {
         // $router->post('/book/{id}', 'BooksController@getByID');
         $router->delete('/book/{id}', 'BooksController@delete');
         $router->post('/book/{id}', 'BooksController@update');
-
+        $router->get('/books/search','BooksController@search');
         $router->get('/book/{id}', 'BooksController@getByID');
         $router->get('/book', 'BooksController@index');
 
